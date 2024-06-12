@@ -7,21 +7,22 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class SelectFlight {
 
+    /**<pre>
+    *  Вылет до текущего момента времени.
+    *  Сегменты с датой прилёта раньше даты вылета.
+    *  Перелеты, где общее время, проведённое на земле,
+    *  превышает два часа
+    * (время на земле — это интервал между прилётом одного сегмента
+    * и вылетом следующего за ним).</pre>
+     */
     public static List<Flight> getFlight() {
 
-        /*
-        Вылет до текущего момента времени.
-        Сегменты с датой прилёта раньше даты вылета.
-        Перелеты, где общее время, проведённое на земле,
-            превышает два часа
-            (время на земле — это интервал между прилётом одного сегмента
-                и вылетом следующего за ним).
-         */
-
         var nowDate = LocalDateTime.now();
-        List<Flight> lsFlight = new ArrayList<>();
+        List<Flight> resListFlight = new ArrayList<>();
 
         FlightBuilder.createFlights()
                 .stream()
@@ -59,12 +60,12 @@ public class SelectFlight {
                     );
 
                     if (numberAccount.sumData / 60 <= 2) {
-                        lsFlight.add(flight);
+                        resListFlight.add(flight);
                     }
                 });
 
 
-        return lsFlight;
+        return resListFlight;
     }
 
 }

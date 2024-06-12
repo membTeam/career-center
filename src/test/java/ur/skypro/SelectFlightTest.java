@@ -5,6 +5,9 @@ import ru.skypro.SelectFlight;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Тестовый модуль выборки рейса на заданную дату и не более 2 часов в ожидании
+ */
 public class SelectFlightTest {
 
     @Test
