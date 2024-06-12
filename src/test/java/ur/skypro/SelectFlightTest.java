@@ -1,10 +1,9 @@
 package ur.skypro;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import ru.skypro.SelectFlight;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SelectFlightTest {
 
