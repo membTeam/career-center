@@ -21,7 +21,7 @@ public class SelectFlight {
      */
     public static List<Flight> getFlight() {
 
-        var nowDate = LocalDateTime.now();
+        var nowDateTime = LocalDateTime.now();
         List<Flight> resListFlight = new ArrayList<>();
 
         FlightBuilder.createFlights()
@@ -29,37 +29,41 @@ public class SelectFlight {
                 .forEach(flight-> {
                     var lsSegmErr = flight.getSegments().stream()
                             .filter(segment -> !(segment.getArrivalDate().isAfter(segment.getDepartureDate())
-                                    && segment.getDepartureDate().isAfter(nowDate)))
+                                    && segment.getDepartureDate().isAfter(nowDateTime)))
                             .toList();
 
                     if (lsSegmErr.size() > 0) {
                         return;
                     }
 
-                    var numberAccount = new Object(){
-                        public int sumData;
+                    var objNumberAccount = new Object(){
+                        public int numAccount;
                         public Instant instArriv;
 
-                        public void setSumData(LocalDateTime departureDate) {
+                        public void setNumAccount(LocalDateTime departureDate) {
                             Instant instDepart = departureDate.toInstant(ZoneOffset.UTC);
                             Duration dur = Duration.between(instDepart, instArriv);
 
                             int minutes = (int) dur.toMinutes();
-                            sumData += Math.abs(minutes);
+                            numAccount += Math.abs(minutes);
+                        }
+
+                        public int getHour()  {
+                            return numAccount / 60;
                         }
                     };
 
                     flight.getSegments().forEach(segment -> {
-                                if (numberAccount.instArriv == null) {
-                                    numberAccount.instArriv = segment.getArrivalDate().toInstant(ZoneOffset.UTC);
+                                if (objNumberAccount.instArriv == null) {
+                                    objNumberAccount.instArriv = segment.getArrivalDate().toInstant(ZoneOffset.UTC);
                                     return;
                                 }
 
-                                numberAccount.setSumData(segment.getDepartureDate());
+                                objNumberAccount.setNumAccount(segment.getDepartureDate());
                             }
                     );
 
-                    if (numberAccount.sumData / 60 <= 2) {
+                    if (objNumberAccount.getHour() <= 2) {
                         resListFlight.add(flight);
                     }
                 });
